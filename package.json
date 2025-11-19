@@ -3,20 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fontsource/varela-round": "^5.2.8",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "ajv": "^8.17.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "node-postgres": "^0.6.2",
+    "nodemon": "^3.1.11",
+    "pg": "^8.16.3",
+    "postgres": "^3.4.7",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.5",
     "react-scripts": "5.0.1",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.27",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "backend": "node src/backend/server/index.js",
+    "deploy-local": "docker compose up --build",
+    "nuke-local": "docker compose down -v",
+    "logs": "docker compose logs -f",
+    "rebuild": "docker compose down -v && docker compose up --build"
   },
   "eslintConfig": {
     "extends": [
@@ -35,5 +52,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.2",
+    "@typescript-eslint/eslint-plugin": "^8.46.3",
+    "@typescript-eslint/parser": "^8.46.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

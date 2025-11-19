@@ -1,0 +1,20 @@
+#Uses node version 20 as our base image
+FROM node:20
+
+#Goes to the app directory (think of it like a cd terminal command)
+WORKDIR /shopkeepr
+
+#Copy the package files
+COPY package*.json ./
+
+##Install app depedancies
+RUN npm install
+
+#Copies the rest of the app files into docker image
+COPY . .
+
+##Expose the port
+EXPOSE 5000
+
+#Run app
+CMD ["npm", "start"]
