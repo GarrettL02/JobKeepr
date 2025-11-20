@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { InfoCard } from "../Jobs/Information/InfoCard";
-import { fetchItems } from "../../api/fetchItems";
+import { fetchItems } from "../../../api/fetchItems";
 import { Item } from "../../entities/items";
 
 export interface ReadOnlyItemComponentProps {

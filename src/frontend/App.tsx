@@ -1,9 +1,9 @@
-import { Header } from "./Components/Header.tsx";
-import { SideBar } from "./Components/SideBar/SideBar.tsx";
-import { JobDetailsPage } from "./Components/Jobs/JobDetailsPage.tsx";
-import { HomePageJob } from "./JobKeepr/HomePageJob.tsx";
-import { HomePagePart } from "./PartsKeepr/HomePagePart.tsx";
-import { JobCreationForm } from "./Components/Jobs/JobCreationForm.tsx";
+import { Header } from "./Components/Header";
+import { SideBar } from "./Components/SideBar/SideBar";
+import { JobDetailsPage } from "./Components/Jobs/JobDetailsPage";
+import { HomePageJob } from "./JobKeepr/HomePageJob";
+import { HomePagePart } from "./PartsKeepr/HomePagePart";
+import { JobCreationForm } from "./Components/Jobs/JobCreationForm";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "@fontsource/varela-round";
@@ -16,7 +16,7 @@ export function App() {
       <BrowserRouter>
         <Header sideBarOpen={sideBarOpen} setSideBarOpen={setSideBarOpen} />
         <div>
-          <SideBar isOpen={sideBarOpen} />
+          <SideBar isOpen={sideBarOpen} onClose={() => {}} />
           <div
             style={{
               marginLeft: sideBarOpen ? "240px" : "40px",
