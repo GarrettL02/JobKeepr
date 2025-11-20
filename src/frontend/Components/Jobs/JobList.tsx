@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { SearchTagSection } from "../Search/SearchTagSection";
 import { JobListCard } from "./JobListCard";
 import { useState, useEffect } from "react";
-import { fetchJobs } from "../../api/fetchJobs.js";
+import { fetchJobs } from "../../../api/fetchJobs.js";
 import { Job } from "../../entities/job";
 
 interface JobListProps {
