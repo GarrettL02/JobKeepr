@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTheme } from "../../Themes/ThemeContextType";
 
 interface SideBarOptionProps {
   title: string;
@@ -7,6 +8,7 @@ interface SideBarOptionProps {
 
 export function SideBarOption({ title, onClick }: SideBarOptionProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const { theme } = useTheme();
 
   return (
     <div
@@ -44,7 +46,7 @@ export function SideBarOption({ title, onClick }: SideBarOptionProps) {
             strokeWidth="2"
           />
           <path
-            fill="white"
+            fill={theme.text}
             d="M3 7l9-5 9 5v10l-9 5-9-5V7zm2 .6v8.3l7 3.9v-8.2L5 7.6zm14 0l-7 4v8.2l7-3.9V7.6zM12 3.5L5.3 7 12 10.5 18.7 7 12 3.5z"
           />
         </svg>

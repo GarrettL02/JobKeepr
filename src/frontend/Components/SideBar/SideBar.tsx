@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { SideBarOption } from "./SideBarOption";
 import { useNavigate } from "react-router-dom";
+import { themeColors } from "../../Themes/themes";
+import { useTheme } from "../../Themes/ThemeContextType";
 
 interface SideBarProps {
   isOpen: boolean;
@@ -11,6 +13,7 @@ export function SideBar({ isOpen }: SideBarProps) {
   const sections: string[] = ["JobsKeepr", "PartsKeepr", "Documentation"];
   const [sectionSelected, setSectionSelected] = useState<number>(0);
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   const handleSectionClick = (section: string, index: number) => {
     setSectionSelected(index);
@@ -28,12 +31,12 @@ export function SideBar({ isOpen }: SideBarProps) {
           left: isOpen ? 0 : "-200px",
           height: "100%",
           width: "200px",
-          backgroundColor: "#2e2d2dff",
-          color: "white",
+          backgroundColor: theme.sideBar,
+          color: theme.text,
           fontFamily: "'Valera Round', sans-serif",
           fontWeight: 550,
           padding: "24px",
-          paddingTop: "100px",
+          paddingTop: "80px",
           boxShadow: isOpen ? "-4px 0 10px rgba(0, 0, 0, 0.54)" : "none",
           transition: "left 0.3s ease",
           display: "flex",

@@ -1,32 +1,26 @@
+import { UUID } from "crypto";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Job } from "../../types/EntityTypes";
+import { formatDate } from "../../Functions/functions";
+import { themeColors } from "../../Themes/themes";
+import { StarRating } from "../Rating/Rating";
+import { useTheme } from "../../Themes/ThemeContextType";
 
 interface JobListCardProps {
+  jobId: UUID;
   title: string;
-  dateCreated?: string;
-  priority: number;
-  jobNumber: number;
-  status: string;
-  assignedTo?: string;
-  difficulty: number;
   image: string;
+  jobData: Job;
 }
 
-export function JobListCard({
-  title,
-  priority,
-  dateCreated,
-  jobNumber,
-  status,
-  assignedTo,
-  difficulty,
-  image,
-}: JobListCardProps) {
+export function JobListCard({ title, image, jobData }: JobListCardProps) {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
+  const { theme } = useTheme();
 
   const handleClick = () => {
-    navigate(`/jobs/${status}/${jobNumber}`);
+    navigate(`/jobs/${jobData.status}/${jobData.jobNumber}`);
   };
 
   return (
@@ -37,7 +31,8 @@ export function JobListCard({
       style={{
         display: "flex",
         alignItems: "center",
-        backgroundColor: "#141313ff",
+        backgroundColor: theme.list,
+        color: theme.text,
         padding: "10px",
         border: "2px solid #0f0f0fff",
         transform: isHovered ? "scale(1.005)" : "scale(1)",
@@ -49,17 +44,30 @@ export function JobListCard({
         style={{
           width: "7%",
           height: "80px",
-          border: "4px solid black",
           marginRight: "10px",
         }}
       >
-        <img src={image} style={{ width: "100%" }} alt="Company Logo" />
+        <img src={image} style={{ width: 90 }} alt="Company Logo" />
       </div>
-      <div style={{ width: "40%" }}>{title}</div>
-      <div style={{ width: "20%" }}>{priority}</div>
-      <div style={{ width: "20%" }}>{difficulty}</div>
-      <div style={{ width: "30%" }}>{dateCreated}</div>
-      <div style={{ width: "10%" }}>{assignedTo}</div>
+      <div
+        style={{
+          width: "40%",
+          overflow: "hidden",
+          whiteSpace: "noWrap",
+          textOverflow: "ellipsis",
+          marginRight: "10px",
+        }}
+      >
+        {title}
+      </div>
+      <div style={{ width: "15%" }}>
+        {<StarRating value={jobData.priority} />}
+      </div>
+      <div style={{ width: "15%" }}>
+        {<StarRating value={jobData.difficulty} />}
+      </div>
+      <div style={{ width: "15%" }}>{formatDate(jobData.createdDate)}</div>
+      <div style={{ width: "15%" }}>{jobData.assignedTo}</div>
     </div>
   );
 }

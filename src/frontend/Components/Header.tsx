@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { themeColors } from "../Themes/themes";
+import { useTheme } from "../Themes/ThemeContextType";
 
 interface HeaderProps {
   sideBarOpen?: boolean;
@@ -7,6 +9,7 @@ interface HeaderProps {
 
 export function Header({ sideBarOpen, setSideBarOpen }: HeaderProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const { theme } = useTheme();
 
   const handleSideBar = () => {
     setSideBarOpen(!sideBarOpen);
@@ -15,8 +18,8 @@ export function Header({ sideBarOpen, setSideBarOpen }: HeaderProps) {
   return (
     <div
       style={{
-        backgroundColor: "#383535ff",
-        color: "white",
+        backgroundColor: theme.header,
+        color: theme.text,
         display: "flex",
         alignItems: "center",
         fontSize: "20px",
@@ -25,7 +28,7 @@ export function Header({ sideBarOpen, setSideBarOpen }: HeaderProps) {
         top: 0,
         left: 0,
         padding: "1rem",
-        height: "60px",
+        height: "30px",
         zIndex: 1000,
       }}
     >

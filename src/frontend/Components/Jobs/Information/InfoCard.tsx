@@ -1,3 +1,5 @@
+import { themeColors } from "../../../Themes/themes";
+
 interface InfoItem {
   sectionLabel: string;
   data: React.ReactNode;
@@ -7,7 +9,7 @@ export function InfoCard({ data, sectionLabel }: InfoItem) {
   return (
     <div
       style={{
-        backgroundColor: "#141313ff",
+        backgroundColor: themeColors.darkMode.background2,
         border: "1px solid white",
         borderRadius: "4px",
         width: "90%",

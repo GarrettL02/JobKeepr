@@ -19,11 +19,13 @@ const db = require("../server/db");
 async function createJobTable() {
   await db.query(`
     CREATE TABLE IF NOT EXISTS jobs (
-      job_id SERIAL PRIMARY KEY,
+      job_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      "jobNumber" SERIAL,
       "customerName" TEXT NOT NULL,
       "customerLocation" TEXT NOT NULL,
       rma TEXT,
-      purchaseOrder TEXT,
+      "tagNumber" TEXT,
+      "purchaseOrder" TEXT,
       status TEXT NOT NULL,
       priority INT NOT NULL,
       difficulty INT NOT NULL,

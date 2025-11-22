@@ -2,8 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { SearchTagSection } from "../Search/SearchTagSection";
 import { JobListCard } from "./JobListCard";
 import { useState, useEffect } from "react";
-import { fetchJobs } from "../../../api/fetchJobs.js";
-import { Job } from "../../entities/job";
+import { getFilteredJobsDataByStatus } from "../../../services/getJobData.js";
+import { Item, Job } from "../../types/EntityTypes";
+import { getItemData } from "../../../services/getItemData";
+import { UUID } from "crypto";
+import { themeColors } from "../../Themes/themes";
+import { useTheme } from "../../Themes/ThemeContextType";
 
 interface JobListProps {
   status: string;
@@ -11,16 +15,28 @@ interface JobListProps {
 
 export function JobList({ status }: JobListProps) {
   const [jobs, setJobs] = useState<Job[]>([]);
+  const [items, setItems] = useState<Record<UUID, Item[]>>({});
+  const { theme } = useTheme();
 
   //Using fetchJobs function to fetch the job data
   useEffect(() => {
-    fetchJobs().then(setJobs);
-  }, []);
+    getFilteredJobsDataByStatus(status).then((fetchedJobs) => {
+      setJobs(fetchedJobs);
 
-  const filtered = jobs.filter((job) => job.status === status);
+      // Fetch items for each job
+      fetchedJobs.forEach(async (job: Job) => {
+        const items = await getItemData(job.job_id); // Assuming this fetches items by jobId
+        setItems((prev) => ({ ...prev, [job.job_id]: items }));
+      });
+    });
+  }, [status]);
+
+  console.log(items);
+
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
 
+  //change te company logo based on customer name
   const companyLogo = (customerName: string) => {
     if (customerName === "AR316") {
       return "/AR316 Logo.png";
@@ -39,7 +55,7 @@ export function JobList({ status }: JobListProps) {
   return (
     <div
       style={{
-        backgroundColor: "#1f1d1dff",
+        backgroundColor: theme.background2,
         padding: "10px",
         fontFamily: "'Valera Round', sans-serif",
         fontWeight: "550",
@@ -103,10 +119,10 @@ export function JobList({ status }: JobListProps) {
               fontWeight: "550",
               color: "#afaeaeff",
               backgroundColor: "#490404d0",
-              border: "2px solid black",
+              border: "none",
               borderRadius: "10px",
               cursor: "pointer",
-              transform: isHovered ? "scale(1.005)" : "scale(1)",
+              transform: isHovered ? "scale(1.05)" : "scale(1)",
               transition: "transform 0.2s ease-in-out",
             }}
           >
@@ -119,7 +135,8 @@ export function JobList({ status }: JobListProps) {
         style={{
           display: "flex",
           alignItems: "center",
-          backgroundColor: "#141313ff",
+          backgroundColor: theme.background3,
+          color: theme.text,
           borderBottom: "1px solid white",
           paddingTop: "10px",
           marginTop: "10px",
@@ -130,24 +147,22 @@ export function JobList({ status }: JobListProps) {
             width: "8%",
           }}
         />
-        <div style={{ width: "40%" }}>Job Title</div>
-        <div style={{ width: "20%" }}>Difficulty</div>
-        <div style={{ width: "20%" }}>Priority</div>
-        <div style={{ width: "30%" }}>Date Created</div>
-        <div style={{ width: "10%" }}>Assigned To</div>
+        <div style={{ width: "40%", marginRight: "10px" }}>Job Title</div>
+        <div style={{ width: "15%" }}>Difficulty</div>
+        <div style={{ width: "15%" }}>Priority</div>
+        <div style={{ width: "15%" }}>Date Created</div>
+        <div style={{ width: "15%" }}>Assigned To</div>
       </div>
-      {filtered.length > 0 ? (
-        filtered.map((job) => (
+      {jobs.length > 0 ? (
+        jobs.map((job) => (
           <JobListCard
             key={job.job_id}
-            title={`Job#${job.job_id} ${job.customerName} ${job.customerLocation}`}
-            priority={job.priority}
-            difficulty={job.difficulty}
-            dateCreated={job.createdDate}
-            jobNumber={job.job_id}
-            status={job.status}
-            assignedTo={job.assignedTo}
+            jobId={job.job_id}
+            title={`Job#${job.jobNumber} ${job.customerName} ${
+              job.customerLocation
+            } ${items[job.job_id]}`}
             image={companyLogo(job.customerName)}
+            jobData={job}
           />
         ))
       ) : (

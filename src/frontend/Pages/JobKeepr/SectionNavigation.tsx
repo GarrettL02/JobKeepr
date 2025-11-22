@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../Themes/ThemeContextType";
 
 interface SectionNavigationProps {
   activeSection: string;
@@ -11,6 +12,7 @@ export function SectionNavigation({
 }: SectionNavigationProps) {
   const sections = ["Incoming", "Evaluated", "Approved", "Completed"];
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   const handleSectionChange = (section: string) => {
     onSectionChange(section);
@@ -33,9 +35,9 @@ export function SectionNavigation({
           onClick={() => handleSectionChange(section)}
           style={{
             cursor: "pointer",
-            color: activeSection === section ? "white" : "#999999ff",
+            color: activeSection === section ? theme.text : "#999999ff",
             backgroundColor:
-              activeSection === section ? "#1f1d1dff" : "transparent",
+              activeSection === section ? theme.background2 : "transparent",
             padding: "10px",
             width: "25%",
             textAlign: "center",

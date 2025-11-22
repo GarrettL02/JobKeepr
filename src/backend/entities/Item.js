@@ -3,11 +3,13 @@ const db = require("../server/db");
 //Runs as soon as the server starts - ensures the if the table doesnt exist on startup, it is created
 async function createItemTable() {
   await db.query(`
+    CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+    
     CREATE TABLE IF NOT EXISTS items (
-      item_id SERIAL PRIMARY KEY,
-      job_id INT NOT NULL REFERENCES jobs(job_id) ON DELETE CASCADE,
+      item_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      job_id UUID NOT NULL REFERENCES jobs(job_id) ON DELETE CASCADE,
+      "itemTitle" TEXT NOT NULL,
       sn INT,
-      t INT,
       description TEXT
     );`);
 }

@@ -1,13 +1,32 @@
 import { BackButton } from "../BackButton/BackButton";
 import { Footer } from "../Footer";
 
-export function JobCreationForm() {
+export function JobCreationPage() {
+  const JobformConfig = {
+    job: {
+      title: { label: "Job Title", value: "", type: "text", required: true },
+      description: { label: "Job Description", value: "", type: "textarea" },
+    },
+    items: [
+      {
+        name: { label: "Item Name", value: "", type: "text", required: true },
+        quantity: { label: "Quantity", value: 1, type: "number" },
+        images: {
+          label: "Upload Images",
+          type: "file",
+          multiple: true,
+          required: false,
+        },
+      },
+    ],
+  };
+
   return (
     <>
       <div
         style={{
           paddingTop: "100px",
-          backgroundColor: "rgba(14, 12, 12, 0.9)",
+          backgroundColor: "#0f0e0eff",
           fontFamily: "'Valera Round', sans-serif",
           color: "white",
           width: "97.5%",

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { InfoCard } from "../Jobs/Information/InfoCard";
-import { fetchItems } from "../../../api/fetchItems";
-import { Item } from "../../entities/items";
+import { getItemData } from "../../../services/getItemData";
+import { Item } from "../../types/EntityTypes";
 
 export interface ReadOnlyItemComponentProps {
   job_id: string;
@@ -12,7 +12,7 @@ export function ReadOnlyItemComponent({ job_id }: ReadOnlyItemComponentProps) {
 
   //Using fetchJobs function to fetch the job data
   useEffect(() => {
-    fetchItems().then(setItemData);
+    getItemData().then(setItemData);
   }, []);
 
   return <div>{/* <InfoCard sectionLabel="Item" data={} /> */}</div>;

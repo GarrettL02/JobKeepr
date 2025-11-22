@@ -1,9 +1,12 @@
 {
   "scripts": {
-    "start-backend": "node src/backend/server/index.js",
+    "dev": "nodemon server/index.js",
     "deploy-local": "docker compose up --build",
     "nuke-local": "docker compose down -v",
     "logs": "docker compose logs -f",
     "rebuild": "docker compose down -v && docker compose up --build"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.11"
   }
 }

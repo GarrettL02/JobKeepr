@@ -7,11 +7,14 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import { JobList } from "../Components/Jobs/JobList";
+import { JobList } from "../../Components/Jobs/JobList";
+import { themeColors } from "../../Themes/themes";
+import { useTheme } from "../../Themes/ThemeContextType";
 
 export function HomePageJob() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { theme } = useTheme();
 
   const mapKeyToLabel = (key: string) => {
     switch (key) {
@@ -49,7 +52,7 @@ export function HomePageJob() {
     <div
       style={{
         paddingTop: "100px",
-        backgroundColor: "rgba(14, 12, 12, 0.9)",
+        backgroundColor: theme.background1,
         color: "white",
         width: "97.5%",
         minHeight: "100vh",

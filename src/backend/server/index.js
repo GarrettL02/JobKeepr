@@ -13,6 +13,11 @@ const { createJobTable } = require("../entities/Job");
 const { createItemTable } = require("../entities/Item");
 const { createItemImageTable } = require("../entities/ItemImage");
 
+// import routes
+const jobsRoutes = require("../routes/jobs");
+const itemsRoutes = require("../routes/items");
+const itemImagesRoutes = require("../routes/itemImages");
+
 async function createAllTables() {
   try {
     await createJobTable();
@@ -39,37 +44,10 @@ app.get("/", (req, res) => {
   res.send("Backend is running");
 });
 
-// Front end request
-app.get("/jobs", async (req, res) => {
-  try {
-    const result = await db.query("SELECT * FROM jobs");
-    res.json(result.rows);
-  } catch (err) {
-    console.error("Error fetching jobs:", err);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-// Front end request
-app.get("/items", async (req, res) => {
-  try {
-    const result = await db.query("SELECT * FROM items");
-    res.json(result.rows);
-  } catch (err) {
-    console.error("Error fetching jobs:", err);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-app.get("/itemImage", async (req, res) => {
-  try {
-    const result = await db.query("SELECT * FROM itemImage");
-    res.json(result.rows);
-  } catch (err) {
-    console.error("Error fetching jobs:", err);
-    res.status(500).json({ error: "Server error" });
-  }
-});
+// mount routers
+app.use("/jobs", jobsRoutes);
+app.use("/items", itemsRoutes);
+app.use("/itemImages", itemImagesRoutes);
 
 //creates Port for backend, makes avaliable at localhost:5000 or specified in .env file
 
