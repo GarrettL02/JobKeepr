@@ -14,9 +14,9 @@ const { createItemTable } = require("../entities/Item");
 const { createItemImageTable } = require("../entities/ItemImage");
 
 // import routes
-const jobsRoutes = require("../routes/jobs");
-const itemsRoutes = require("../routes/items");
-const itemImagesRoutes = require("../routes/itemImages");
+const jobsRoutes = require("../routes/jobRoutes");
+const itemsRoutes = require("../routes/itemRoutes");
+const itemImagesRoutes = require("../routes/itemImageRoutes");
 
 async function createAllTables() {
   try {

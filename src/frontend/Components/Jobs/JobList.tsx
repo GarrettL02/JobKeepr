@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { SearchTagSection } from "../Search/SearchTagSection";
 import { JobListCard } from "./JobListCard";
 import { useState, useEffect } from "react";
-import { getFilteredJobsDataByStatus } from "../../../services/getJobData.js";
+import { getFilteredJobsDataByStatus } from "../../../services/job.js";
 import { Item, Job } from "../../types/EntityTypes";
 import { getItemData } from "../../../services/getItemData";
 import { UUID } from "crypto";
@@ -31,7 +31,13 @@ export function JobList({ status }: JobListProps) {
     });
   }, [status]);
 
-  console.log(items);
+  const handleJobUpdate = (updatedJob: Job) => {
+    setJobs((prevJobs) =>
+      prevJobs.map((job) =>
+        job.job_id === updatedJob.job_id ? updatedJob : job
+      )
+    );
+  };
 
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
@@ -163,6 +169,7 @@ export function JobList({ status }: JobListProps) {
             } ${items[job.job_id]}`}
             image={companyLogo(job.customerName)}
             jobData={job}
+            onUpdate={handleJobUpdate}
           />
         ))
       ) : (

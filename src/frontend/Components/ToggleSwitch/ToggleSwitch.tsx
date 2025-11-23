@@ -20,7 +20,7 @@ export function ToggleSwitch({ initial = false, onToggle }: ToggleSwitchProps) {
         width: "50px",
         height: "25px",
         borderRadius: "25px",
-        background: isOn ? "green" : "#ccc",
+        background: isOn ? "black" : "#ccc",
         cursor: "pointer",
         position: "relative",
         transition: "background 0.2s",

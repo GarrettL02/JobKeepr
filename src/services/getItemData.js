@@ -1,5 +1,16 @@
 const API_URL = "http://localhost:5000";
 
+function mappItemData(row) {
+  return {
+    item_id: row.item_id,
+    job_id: row.job_id,
+    title: row.title,
+    sn: row.sn || "",
+    t: row.t || "",
+    description: row.description || "",
+  };
+}
+
 export async function getItemData(jobId) {
   try {
     const response = await fetch(`${API_URL}/items`);
@@ -7,18 +18,7 @@ export async function getItemData(jobId) {
 
     const data = await response.json();
 
-    // Map backend fields to frontend-friendly camelCase
-    const mappedItemData = data.map((row) => ({
-      item_id: row.item_id,
-      job_id: row.job_id,
-      sn: row.sn || "",
-      t: row.t || "",
-      description: row.description || "",
-    }));
-
-    const itemData = mappedItemData.filter((item) => item.job_id === jobId);
-
-    return mappedItemData;
+    return data.map(mappItemData).filter((item) => item.job_id === jobId);
   } catch (err) {
     console.error("Fetch items error:", err);
     return [];

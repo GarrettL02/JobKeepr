@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { InfoCard } from "../Jobs/Information/InfoCard";
+import { InfoCard } from "../Information/InfoCard";
 import { getItemData } from "../../../services/getItemData";
 import { Item } from "../../types/EntityTypes";
 

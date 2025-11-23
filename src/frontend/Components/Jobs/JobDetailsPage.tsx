@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { BackButton } from "../BackButton/BackButton";
 import { ReadOnlyTextLabel } from "../ReadOnlyComponents/ReadOnlyTextLabel";
-import { InfoCard } from "./Information/InfoCard";
+import { InfoCard } from "../Information/InfoCard";
 import { useEffect, useState } from "react";
-import { getJobData } from "../../../services/getJobData";
+import { getJobData } from "../../../services/job";
 import { Job } from "../../types/EntityTypes";
 import { themeColors } from "../../Themes/themes";
 

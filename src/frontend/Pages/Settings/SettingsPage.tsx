@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { InfoCard } from "../../Components/Jobs/Information/InfoCard";
+import { InfoCard } from "../../Components/Information/InfoCard";
 import { ToggleSwitch } from "../../Components/ToggleSwitch/ToggleSwitch";
 import { themeColors } from "../../Themes/themes";
 import { useTheme } from "../../Themes/ThemeContextType";
+import { Modal } from "../../Components/Modal/Modal";
 
 export function SettingsPage() {
   const { darkMode, toggleTheme, theme } = useTheme();

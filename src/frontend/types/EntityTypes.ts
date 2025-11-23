@@ -1,5 +1,6 @@
 import { UUID } from "crypto";
 
+//Entity Types//
 //Job Entity Type
 export interface Job {
   job_id: UUID;
@@ -20,6 +21,14 @@ export interface Job {
 export interface Item {
   job_id: number;
   item_id: number;
+  title: string;
   sn?: string;
   description?: string;
+}
+
+//Other Types//
+//YesNo type
+export interface YesNo {
+  yes: string;
+  no: string;
 }

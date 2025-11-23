@@ -1,4 +1,4 @@
-import { themeColors } from "../../../Themes/themes";
+import { themeColors } from "../../Themes/themes";
 
 interface InfoItem {
   sectionLabel: string;
