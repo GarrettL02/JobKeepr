@@ -26,7 +26,6 @@ export function JobListCard({
 }: JobListCardProps) {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
 
   const { theme } = useTheme();
 

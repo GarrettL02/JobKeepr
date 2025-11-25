@@ -3,12 +3,12 @@ import { SideBar } from "./Components/SideBar/SideBar";
 import { JobDetailsPage } from "./Components/Jobs/JobDetailsPage";
 import { HomePageJob } from "./Pages/JobKeepr/JobKeeprPage";
 import { HomePagePart } from "./Pages/PartOrdering/PartOrderingPage";
-import { JobCreationPage } from "./Components/Jobs/JobCreationPage";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "@fontsource/varela-round";
 import { SettingsPage } from "./Pages/Settings/SettingsPage";
 import { ThemeProvider } from "./Themes/ThemeContextType";
+import { JobCreationForm } from "./Components/CreationForm/JobCreationForm";
 
 export function App() {
   const [sideBarOpen, setSideBarOpen] = useState(false);
@@ -32,12 +32,12 @@ export function App() {
                 <Route path="/parts" element={<HomePagePart />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route
-                  path="/jobs/:status/:jobNumber"
-                  element={<JobDetailsPage />}
+                  path="/jobs/:status/create"
+                  element={<JobCreationForm />}
                 />
                 <Route
-                  path="/jobs/:status/create"
-                  element={<JobCreationPage />}
+                  path="/jobs/:status/:jobNumber"
+                  element={<JobDetailsPage />}
                 />
               </Routes>
             </div>

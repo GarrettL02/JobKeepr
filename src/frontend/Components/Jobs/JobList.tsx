@@ -3,10 +3,7 @@ import { SearchTagSection } from "../Search/SearchTagSection";
 import { JobListCard } from "./JobListCard";
 import { useState, useEffect } from "react";
 import { getFilteredJobsDataByStatus } from "../../../services/job.js";
-import { Item, Job } from "../../types/EntityTypes";
-import { getItemData } from "../../../services/getItemData";
-import { UUID } from "crypto";
-import { themeColors } from "../../Themes/themes";
+import { Job } from "../../types/EntityTypes";
 import { useTheme } from "../../Themes/ThemeContextType";
 
 interface JobListProps {
@@ -15,19 +12,12 @@ interface JobListProps {
 
 export function JobList({ status }: JobListProps) {
   const [jobs, setJobs] = useState<Job[]>([]);
-  const [items, setItems] = useState<Record<UUID, Item[]>>({});
   const { theme } = useTheme();
 
   //Using fetchJobs function to fetch the job data
   useEffect(() => {
     getFilteredJobsDataByStatus(status).then((fetchedJobs) => {
       setJobs(fetchedJobs);
-
-      // Fetch items for each job
-      fetchedJobs.forEach(async (job: Job) => {
-        const items = await getItemData(job.job_id); // Assuming this fetches items by jobId
-        setItems((prev) => ({ ...prev, [job.job_id]: items }));
-      });
     });
   }, [status]);
 
@@ -164,9 +154,7 @@ export function JobList({ status }: JobListProps) {
           <JobListCard
             key={job.job_id}
             jobId={job.job_id}
-            title={`Job#${job.jobNumber} ${job.customerName} ${
-              job.customerLocation
-            } ${items[job.job_id]}`}
+            title={`Job#${job.jobNumber} ${job.customerName} ${job.customerLocation} ${job.description}`}
             image={companyLogo(job.customerName)}
             jobData={job}
             onUpdate={handleJobUpdate}

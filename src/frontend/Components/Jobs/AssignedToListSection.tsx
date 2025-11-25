@@ -59,13 +59,14 @@ export function AssignedToListSection({
           assignedTo ? "unassign" : "assign"
         } this job to you?`}
         options={
-          <>
+          <div style={{ marginBottom: "10px" }}>
             <button
               style={{
                 width: 100,
-                height: 40,
+                height: 45,
                 borderRadius: "10px",
                 cursor: "pointer",
+                marginRight: "10px",
               }}
               onClick={(e) =>
                 handleAssignEvaluator(e, assignedTo ? true : false)
@@ -76,7 +77,7 @@ export function AssignedToListSection({
             <button
               style={{
                 width: 100,
-                height: 40,
+                height: 45,
                 borderRadius: "10px",
                 cursor: "pointer",
               }}
@@ -84,7 +85,7 @@ export function AssignedToListSection({
             >
               No
             </button>
-          </>
+          </div>
         }
       />
       {!assignedTo ? (

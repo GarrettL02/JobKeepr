@@ -21,6 +21,7 @@ async function createJobTable() {
     CREATE TABLE IF NOT EXISTS jobs (
       job_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       "jobNumber" SERIAL,
+      description TEXT,
       "customerName" TEXT NOT NULL,
       "customerLocation" TEXT NOT NULL,
       rma TEXT,

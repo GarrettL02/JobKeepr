@@ -4,6 +4,7 @@ function mapJobData(row) {
   return {
     job_id: row.job_id,
     jobNumber: row.jobNumber,
+    description: row.description,
     customerName: row.customerName,
     customerLocation: row.customerLocation,
     status: row.status,

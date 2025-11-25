@@ -49,7 +49,13 @@ export function Modal({ open, onClose, label, options }: ModalProps) {
         >
           {label}
         </div>
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            borderBottom: "2px solid white",
+          }}
+        >
           {options}
         </div>
       </div>
