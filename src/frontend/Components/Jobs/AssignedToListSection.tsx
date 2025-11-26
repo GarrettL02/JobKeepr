@@ -67,6 +67,9 @@ export function AssignedToListSection({
                 borderRadius: "10px",
                 cursor: "pointer",
                 marginRight: "10px",
+                backgroundColor: "#490404d0",
+                color: "white",
+                border: "1px solid white",
               }}
               onClick={(e) =>
                 handleAssignEvaluator(e, assignedTo ? true : false)
@@ -80,6 +83,9 @@ export function AssignedToListSection({
                 height: 45,
                 borderRadius: "10px",
                 cursor: "pointer",
+                backgroundColor: "#490404d0",
+                color: "white",
+                border: "1px solid white",
               }}
               onClick={() => setModalOpen(false)}
             >

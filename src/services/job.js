@@ -70,6 +70,24 @@ export async function getJobData(jobNumber) {
   }
 }
 
+//POST update job
+export async function createJob(jobData) {
+  try {
+    const response = await fetch(`${API_URL}/jobs`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(jobData),
+    });
+
+    if (!response.ok) throw new Error("Failed to update job");
+
+    return await response.json();
+  } catch (err) {
+    console.error("Update job error:", err);
+    throw err;
+  }
+}
+
 //PATCH update job
 export async function updateJob(jobId, updates) {
   try {

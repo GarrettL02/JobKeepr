@@ -1,4 +1,8 @@
-export function Footer() {
+interface FooterProps {
+  options: React.ReactNode;
+}
+
+export function Footer({ options }: FooterProps) {
   return (
     <div
       style={{
@@ -15,7 +19,7 @@ export function Footer() {
         justifyContent: "right",
       }}
     >
-      <div style={{ padding: "20px" }}>Footer</div>
+      <div style={{ padding: "20px" }}>{options}</div>
     </div>
   );
 }

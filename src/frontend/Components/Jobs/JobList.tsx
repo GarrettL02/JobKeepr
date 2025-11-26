@@ -154,7 +154,7 @@ export function JobList({ status }: JobListProps) {
           <JobListCard
             key={job.job_id}
             jobId={job.job_id}
-            title={`Job#${job.jobNumber} ${job.customerName} ${job.customerLocation} ${job.description}`}
+            title={`#${job.jobNumber} - ${job.customerName} ${job.customerLocation} ${job.description}`}
             image={companyLogo(job.customerName)}
             jobData={job}
             onUpdate={handleJobUpdate}

@@ -3,8 +3,12 @@ import { FormConfig } from "../../types/EntityTypes";
 import { BackButton } from "../BackButton/BackButton";
 import { Footer } from "../Footer";
 import Form from "./Form";
+import { createJob } from "../../../services/job";
+import { useNavigate } from "react-router-dom";
 
 export function JobCreationForm() {
+  const navigate = useNavigate();
+
   const jobFormConfig: FormConfig = {
     job: {
       customerName: {
@@ -29,6 +33,21 @@ export function JobCreationForm() {
         type: "textarea",
         value: "",
       },
+      purchaseOrder: {
+        label: "Purchase Order No.",
+        type: "textarea",
+        value: "",
+      },
+      difficulty: {
+        label: "Difficulty",
+        type: "number",
+        value: 1,
+      },
+      priority: {
+        label: "Priority",
+        type: "number",
+        value: 1,
+      },
       description: {
         label: "Description",
         type: "textarea",
@@ -45,10 +64,10 @@ export function JobCreationForm() {
           required: true,
         },
 
-        quantity: {
-          label: "Quantity",
-          type: "number",
-          value: 1,
+        sn: {
+          label: "Serial Number",
+          type: "text",
+          value: "",
         },
 
         images: {
@@ -63,8 +82,34 @@ export function JobCreationForm() {
 
   const [config, setConfig] = useState(jobFormConfig);
 
-  const handleSubmit = () => {
-    console.log("Final form data:", config);
+  const handleSubmit = async () => {
+    try {
+      const jobDataPayload = transformConfigToPayload(config);
+      //see if the job can be created with a api post
+      await createJob(jobDataPayload);
+      //alert that job creations is successful
+      alert("Job Created Successfully");
+      //navigate back to the incoming page
+      navigate("/jobs/incoming");
+    } catch (error) {
+      alert("Job Creation Failed");
+    }
+  };
+
+  const transformConfigToPayload = (config: FormConfig) => {
+    return {
+      // flatten job fields
+      ...Object.fromEntries(
+        Object.entries(config.job).map(([key, field]) => [key, field.value])
+      ),
+
+      // flatten items
+      items: config.items.map((item) =>
+        Object.fromEntries(
+          Object.entries(item).map(([key, field]) => [key, field.value])
+        )
+      ),
+    };
   };
 
   return (
@@ -92,7 +137,25 @@ export function JobCreationForm() {
           onChange={setConfig}
         />
       </div>
-      <Footer />
+      <Footer
+        options={
+          <button
+            style={{
+              cursor: "pointer",
+              backgroundColor: "#490404d0",
+              color: "white",
+              border: "2px solid white",
+              borderRadius: "5px",
+              height: "40px",
+              width: "80px",
+              marginTop: "-10px",
+            }}
+            onClick={() => handleSubmit()}
+          >
+            Submit
+          </button>
+        }
+      />
     </>
   );
 }

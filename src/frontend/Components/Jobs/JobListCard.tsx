@@ -5,9 +5,6 @@ import { Job } from "../../types/EntityTypes";
 import { formatDate } from "../../Functions/functions";
 import { StarRating } from "../Rating/Rating";
 import { useTheme } from "../../Themes/ThemeContextType";
-import e from "express";
-import { updateJob } from "../../../services/job";
-import { Modal } from "../Modal/Modal";
 import { AssignedToListSection } from "./AssignedToListSection";
 
 interface JobListCardProps {

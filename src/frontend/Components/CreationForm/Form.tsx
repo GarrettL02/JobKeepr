@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FileField, FormConfig, FormField } from "../../types/EntityTypes";
 import { InfoCard } from "../Information/InfoCard";
 import { FormSection } from "./FormSection";
+import { FormFieldWrapper } from "./FormFieldWrapper";
+import { useTheme } from "../../Themes/ThemeContextType";
 
 interface FormProps {
   formConfig: FormConfig;
@@ -10,9 +12,7 @@ interface FormProps {
 }
 
 export default function Form({ formConfig, onChange, onSubmit }: FormProps) {
-  //
-  // ---- MAIN CHANGE HANDLERS ----
-  //
+  const { theme } = useTheme();
 
   const updateField = (
     section: "job" | "items",
@@ -66,37 +66,75 @@ export default function Form({ formConfig, onChange, onSubmit }: FormProps) {
       case "number":
       case "date":
         return (
-          <div key={key} className="field">
-            <label>{field.label}</label>
-            <input
-              type={field.type}
-              value={field.value}
-              required={field.required}
-              onChange={(e) =>
-                updateField(
-                  section,
-                  key,
-                  field.type === "number"
-                    ? Number(e.target.value)
-                    : e.target.value,
-                  itemIndex
-                )
-              }
-            />
+          <div key={key}>
+            <FormFieldWrapper label={field.label}>
+              <input
+                style={{
+                  backgroundColor: theme.background2,
+                  width: field.label === "Description" ? "85vw" : "300px",
+                  height: field.label === "Description" ? "150px" : "35px",
+                  borderRadius: "10px",
+                  border: "2px solid white",
+                  color: "white",
+                }}
+                type={field.type}
+                value={field.value}
+                required={field.required}
+                onChange={(e) =>
+                  updateField(
+                    section,
+                    key,
+                    field.type === "number"
+                      ? Number(e.target.value)
+                      : e.target.value,
+                    itemIndex
+                  )
+                }
+              />
+            </FormFieldWrapper>
           </div>
         );
 
       case "textarea":
         return (
-          <div key={key} className="field">
-            <label>{field.label}</label>
-            <textarea
-              value={field.value}
-              required={field.required}
-              onChange={(e) =>
-                updateField(section, key, e.target.value, itemIndex)
-              }
-            />
+          <div key={key}>
+            <FormFieldWrapper label={field.label}>
+              {field.label !== "Description" ? (
+                <input
+                  style={{
+                    backgroundColor: theme.background2,
+                    width: "300px",
+                    height: "35px",
+                    borderRadius: "10px",
+                    border: "2px solid white",
+                    color: "white",
+                  }}
+                  value={field.value}
+                  required={field.required}
+                  onChange={(e) =>
+                    updateField(section, key, e.target.value, itemIndex)
+                  }
+                />
+              ) : (
+                <textarea
+                  style={{
+                    backgroundColor: theme.background2,
+                    width: "85vw",
+                    height: "200px",
+                    borderRadius: "10px",
+                    border: "2px solid white",
+                    color: "white",
+                    fontSize: "15px",
+                    padding: "10px",
+                  }}
+                  value={field.value}
+                  required={field.required}
+                  onChange={(e) =>
+                    updateField(section, key, e.target.value, itemIndex)
+                  }
+                />
+              )}
+            </FormFieldWrapper>
           </div>
         );
 
@@ -134,19 +172,21 @@ export default function Form({ formConfig, onChange, onSubmit }: FormProps) {
       case "file":
         return (
           <div key={key} className="field">
-            <label>{field.label}</label>
-            <input
-              type="file"
-              multiple={field.multiple}
-              onChange={(e) =>
-                updateFileField(
-                  section,
-                  key,
-                  e.target.files as FileList,
-                  itemIndex
-                )
-              }
-            />
+            {/* GARRETT - Chaange to Custom Form file wrapper */}
+            <FormFieldWrapper label={field.label}>
+              <input
+                type="file"
+                multiple={field.multiple}
+                onChange={(e) =>
+                  updateFileField(
+                    section,
+                    key,
+                    e.target.files as FileList,
+                    itemIndex
+                  )
+                }
+              />
+            </FormFieldWrapper>
           </div>
         );
 
@@ -165,15 +205,31 @@ export default function Form({ formConfig, onChange, onSubmit }: FormProps) {
         e.preventDefault();
         onSubmit();
       }}
-      style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+        overflow: "hidden",
+        marginTop: "30px",
+        marginBottom: "100px",
+      }}
     >
       {/* JOB FIELDS */}
       <FormSection>
         <div>
           <h2>Job Info</h2>
-          {Object.entries(formConfig.job).map(([key, field]) =>
-            renderField(key, field, "job")
-          )}
+          <div
+            style={{
+              display: "flex",
+              columnGap: "450px",
+              flexWrap: "wrap",
+              margin: "10px",
+            }}
+          >
+            {Object.entries(formConfig.job).map(([key, field]) =>
+              renderField(key, field, "job")
+            )}
+          </div>
         </div>
       </FormSection>
 
@@ -188,8 +244,6 @@ export default function Form({ formConfig, onChange, onSubmit }: FormProps) {
           </div>
         ))}
       </FormSection>
-
-      <button type="submit">Submit</button>
     </form>
   );
 }

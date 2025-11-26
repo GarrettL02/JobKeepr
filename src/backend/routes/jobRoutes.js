@@ -50,4 +50,54 @@ router.patch("/id/:jobId", async (req, res) => {
   }
 });
 
+// POST /jobs
+router.post("/", async (req, res) => {
+  try {
+    const {
+      customerName,
+      customerLocation,
+      rma,
+      tagNumber,
+      description,
+      priority,
+      difficulty,
+      items,
+    } = req.body;
+
+    // Insert job (DB generates job_id automatically)
+    const jobResult = await db.query(
+      `INSERT INTO jobs ("customerName", "customerLocation", rma, "tagNumber", description, status, priority, difficulty)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       RETURNING *`,
+      [
+        customerName,
+        customerLocation,
+        rma,
+        tagNumber,
+        description,
+        "incoming",
+        priority,
+        difficulty,
+      ]
+    );
+
+    const job = jobResult.rows[0];
+
+    // Insert items if any
+    if (items && items.length > 0) {
+      for (const item of items) {
+        await db.query(
+          `INSERT INTO items (job_id, "itemTitle", sn)
+           VALUES ($1, $2, $3)`,
+          [job.job_id, item.name, item.sn]
+        );
+      }
+    }
+
+    res.status(201).json(job);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to create job" });
+  }
+});
 module.exports = router;
