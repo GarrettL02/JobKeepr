@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { getFilteredJobsDataByStatus } from "../../../services/job.js";
 import { Job } from "../../types/EntityTypes";
 import { useTheme } from "../../Themes/ThemeContextType";
+import { LoadingSpinner } from "../LoadingSpinner/LoadingSpinner";
 
 interface JobListProps {
   status: string;
@@ -12,13 +13,33 @@ interface JobListProps {
 
 export function JobList({ status }: JobListProps) {
   const [jobs, setJobs] = useState<Job[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [dataError, setDataError] = useState<boolean>(true);
   const { theme } = useTheme();
 
   //Using fetchJobs function to fetch the job data
   useEffect(() => {
-    getFilteredJobsDataByStatus(status).then((fetchedJobs) => {
-      setJobs(fetchedJobs);
-    });
+    if (!status) return; // safeguard
+
+    let mounted = true;
+    const fetchJob = async () => {
+      setIsLoading(true);
+      setDataError(false);
+      try {
+        const data = await getFilteredJobsDataByStatus(status);
+        if (mounted) setJobs(data);
+      } catch (err) {
+        console.error("Failed to load job data", err);
+        if (mounted) setDataError(true);
+      } finally {
+        if (mounted) setIsLoading(false);
+      }
+    };
+
+    fetchJob();
+    return () => {
+      mounted = false; // cleanup to prevent state updates on unmounted component
+    };
   }, [status]);
 
   const handleJobUpdate = (updatedJob: Job) => {
@@ -149,7 +170,17 @@ export function JobList({ status }: JobListProps) {
         <div style={{ width: "15%" }}>Date Created</div>
         <div style={{ width: "15%" }}>Assigned To</div>
       </div>
-      {jobs.length > 0 ? (
+      {isLoading ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: "20px",
+          }}
+        >
+          <LoadingSpinner />
+        </div>
+      ) : jobs.length > 0 ? (
         jobs.map((job) => (
           <JobListCard
             key={job.job_id}

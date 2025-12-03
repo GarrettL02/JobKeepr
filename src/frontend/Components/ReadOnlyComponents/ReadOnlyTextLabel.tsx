@@ -1,6 +1,6 @@
 interface ReadOnlyTextLabelProps {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 export function ReadOnlyTextLabel({ label, value }: ReadOnlyTextLabelProps) {
